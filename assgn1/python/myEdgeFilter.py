@@ -16,14 +16,14 @@ def myEdgeFilter(img0, sigma):
     Imgy = myImageFilter(denoise, Sy)
     thetas = np.arctan2(Imgy, Imgx) * 180 / np.pi
 
-    gradm = np.sqrt(Imgx**2 +Imgy**2)
+    gradm = np.sqrt(Imgx**2 + Imgy**2)
 
     qthetas = np.zeros_like(thetas, dtype=np.uint8)
     qthetas[np.where((thetas >= -22.5) & (thetas < 22.5))] = 0
     qthetas[np.where((thetas >= 22.5) & (thetas < 67.5))] = 45
     qthetas[np.where((thetas >= 67.5) & (thetas < 112.5))] = 90
     qthetas[np.where((thetas >= 112.5) & (thetas < 157.5))] = 135
-    suppressed = np.copy(gradm)
+    nms_out = np.copy(gradm)
     #height, width = gradm.shape
     for i in range(1, gradm.shape[0] - 1):
         for j in range(1, gradm.shape[1] - 1):
@@ -38,9 +38,9 @@ def myEdgeFilter(img0, sigma):
                 neighbors = [gradm[i-1, j-1], gradm[i+1, j+1]]
 
             if gradm[i, j] <= max(neighbors):
-                suppressed[i, j] = 0
+                nms_out[i, j] = 0
 
-    return Imgx, Imgy, suppressed
+    return Imgx, Imgy, nms_out
 
 
 
