@@ -19,10 +19,22 @@ def myEdgeFilter(img0, sigma):
     gradm = np.sqrt(Imgx**2 + Imgy**2)
 
     qthetas = np.zeros_like(thetas, dtype=np.uint8)
-    qthetas[np.where((thetas >= -22.5) & (thetas < 22.5))] = 0
-    qthetas[np.where((thetas >= 22.5) & (thetas < 67.5))] = 45
-    qthetas[np.where((thetas >= 67.5) & (thetas < 112.5))] = 90
-    qthetas[np.where((thetas >= 112.5) & (thetas < 157.5))] = 135
+    for i in range(len(thetas)):
+        thetas[i] = thetas[i]+180
+    qthetas[np.where(((thetas >= 0) and (thetas < 22.5)) or (thetas>=337.5 and (thetas<=360)))] = 0
+    qthetas[np.where(((thetas >= 22.5 ) and (thetas < 67.5)))] = 45
+    qthetas[np.where(((thetas >= 67.5  ) and (thetas < 112.5)))] = 90
+    qthetas[np.where(((thetas >= 22.5 ) and (thetas < 67.5)))] = 135
+  
+
+
+
+    #thetas = [item = item + 180 for item in thetas]
+   # qthetas[np.where(((thetas >= -45/2) and (thetas < 45/2)) or (thetas>=135+(180-135)/2 or (thetas<=135+(180-135)/2) ))] = 0
+    # qthetas[np.where((thetas >= -22.5) & (thetas < 22.5)  )] = 0
+    # qthetas[np.where((thetas >= 22.5) & (thetas < 67.5))] = 45
+    # qthetas[np.where((thetas >= 67.5) & (thetas < 112.5))] = 90
+    # qthetas[np.where((thetas >= 112.5) & (thetas < 157.5))] = 135
     nms_out = np.copy(gradm)
     #height, width = gradm.shape
     for i in range(1, gradm.shape[0] - 1):
