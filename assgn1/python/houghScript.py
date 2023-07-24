@@ -12,7 +12,7 @@ resultsdir = '../results'   # the directory for dumping results
 
 # parameters
 sigma     = 2
-threshold = 0.03
+threshold = 0.1
 rhoRes    = 2
 thetaRes  = np.pi / 90
 nLines    = 15
