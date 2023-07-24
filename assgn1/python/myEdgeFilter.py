@@ -5,11 +5,14 @@ from myImageFilter import myImageFilter
 
 def myEdgeFilter(img0, sigma):
     # YOUR CODE HERE
-    gauss_filt =signal.gaussian(2 * np.ceil(3 * sigma) + 1, sigma)
+    kernel =signal.gaussian(2 * np.ceil(3 * sigma) + 1, sigma)
+    gauss_filt = np.outer(kernel, kernel)
+    #print(gauss_filt.shape)
 
     denoise = myImageFilter(img0, gauss_filt)
 
-    Sx = [[-1,0,1],[-2,0,2],[-1,0,1]]
+
+    Sx = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
     Sy = Sx.T
 
     Imgx = myImageFilter(denoise, Sx)
@@ -21,10 +24,10 @@ def myEdgeFilter(img0, sigma):
     qthetas = np.zeros_like(thetas, dtype=np.uint8)
     for i in range(len(thetas)):
         thetas[i] = thetas[i]+180
-    qthetas[np.where(((thetas >= 0) and (thetas < 22.5)) or (thetas>=337.5 and (thetas<=360)))] = 0
-    qthetas[np.where(((thetas >= 22.5 ) and (thetas < 67.5)))] = 45
-    qthetas[np.where(((thetas >= 67.5  ) and (thetas < 112.5)))] = 90
-    qthetas[np.where(((thetas >= 22.5 ) and (thetas < 67.5)))] = 135
+    qthetas[np.where(((thetas >= 0) & (thetas < 22.5)) )] = 0
+    qthetas[np.where(((thetas >= 22.5 ) & (thetas < 67.5)))] = 45
+    qthetas[np.where(((thetas >= 67.5  ) & (thetas < 112.5)))] = 90
+    qthetas[np.where(((thetas >= 22.5 ) & (thetas < 67.5)))] = 135
   
 
 
@@ -52,7 +55,7 @@ def myEdgeFilter(img0, sigma):
             if gradm[i, j] <= max(neighbors):
                 nms_out[i, j] = 0
 
-    return Imgx, Imgy, nms_out
+    return nms_out
 
 
 

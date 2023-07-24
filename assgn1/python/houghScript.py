@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 from myEdgeFilter import myEdgeFilter
 from myHoughLines import myHoughLines
@@ -29,10 +30,14 @@ for file in os.listdir(datadir):
             img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         
         img = np.float32(img) / 255
-        
+        # print(img.shape)
         # actual Hough line code function calls
         img_edge = myEdgeFilter(img, sigma)
+        # plt.imshow(img_edge[0])
+        # plt.show()
+        # print(img_edge.shape, threshold)
         img_threshold = np.float32(img_edge > threshold)
+        # print("Solved error")
         [img_hough, rhoScale, thetaScale] = myHoughTransform(img_threshold, \
                                                              rhoRes, thetaRes)
         [rhos, thetas] = myHoughLines(img_hough, nLines)

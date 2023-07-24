@@ -1,1 +1,3 @@
-def myHoughLineSegments(lineRho, lineTheta, Im)
+def myHoughLineSegments(lineRho, lineTheta, Im):
+    lines = [] 
+    return lines
